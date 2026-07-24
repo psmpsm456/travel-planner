@@ -960,14 +960,26 @@ async function doTranslate() {
     let translated = '';
     if (Array.isArray(data[0])) data[0].forEach(seg => { if (seg&&seg[0]) translated+=seg[0]; });
     out.textContent = translated || '번역 실패 😢';
-    // 일본어 발음 표기
-    if (tl==='ja' && translated) {
-      const rmRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=ja&tl=en&dt=t&dt=rm&q=${encodeURIComponent(translated)}`);
-      const rmData = await rmRes.json();
-      let romaji='';
-      if (Array.isArray(rmData[0])) rmData[0].forEach(seg => { if (Array.isArray(seg)&&seg[3]) romaji+=seg[3]+' '; });
-      romaji=romaji.trim();
-      if (romaji) pronEl.textContent='🔊 발음: '+romajiToKorean(romaji);
+    // 발음 표기 (일본어, 태국어, 중국어, 베트남어 등)
+    if (translated && ['ja','th','zh','vi','ko'].includes(tl)) {
+      try {
+        const rmRes = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${tl}&tl=en&dt=t&dt=rm&q=${encodeURIComponent(translated)}`);
+        const rmData = await rmRes.json();
+        let romanized = '';
+        // dt=rm 결과는 rmData[0] 각 세그먼트의 [3] 또는 rmData[0][i][3]
+        if (Array.isArray(rmData[0])) {
+          rmData[0].forEach(seg => { if (Array.isArray(seg) && seg[3]) romanized += seg[3] + ' '; });
+        }
+        // 일부 언어는 rmData[2] 또는 rmData[1]에 있기도 함
+        if (!romanized.trim() && Array.isArray(rmData) && typeof rmData[1] === 'string') {
+          romanized = rmData[1];
+        }
+        romanized = romanized.trim();
+        if (romanized) {
+          const display = tl === 'ja' ? romajiToKorean(romanized) : romanized;
+          pronEl.textContent = '🔊 발음: ' + display;
+        }
+      } catch {}
     }
   } catch { out.textContent='네트워크 오류가 발생했어요 😢'; }
 }
