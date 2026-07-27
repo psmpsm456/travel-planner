@@ -82,7 +82,7 @@
     .day-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
     .emoji-btns { display:flex; gap:8px; flex-wrap:wrap; }
     .emoji-btn {
-      width:44px; height:44px; border-radius:12px; border:1.5px solid var(--border);
+      padding:8px 14px; border-radius:20px; border:1.5px solid var(--border);
       background:#fff; font-size:1.3rem; cursor:pointer; transition:all 0.15s;
       display:flex; align-items:center; justify-content:center;
     }
@@ -440,13 +440,10 @@
   <div class="setup-card">
     <div class="setup-label">🎨 앱 테마 색상</div>
     <div class="emoji-btns" id="emojiBtns">
-      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)" title="핑크">🌸</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌊',this)" title="하늘">🌊</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌴',this)" title="초록">🌴</button>
-      <button class="emoji-btn" onclick="selectEmoji('🗼',this)" title="보라">🗼</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌅',this)" title="오렌지">🌅</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌙',this)" title="다크">🌙</button>
-      <button class="emoji-btn" onclick="selectEmoji('💅',this)" title="갸루">💅</button>
+      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)">🌸 봄</button>
+      <button class="emoji-btn" onclick="selectEmoji('☀️',this)">☀️ 여름</button>
+      <button class="emoji-btn" onclick="selectEmoji('🍂',this)">🍂 가을</button>
+      <button class="emoji-btn" onclick="selectEmoji('❄️',this)">❄️ 겨울</button>
     </div>
   </div>
 
@@ -741,13 +738,10 @@ function selectDays(n, btn) {
   btn.classList.add('active');
 }
 const THEMES = {
-  '🌸': { accent:'#d4186a', accent2:'#f472b6', bg:'#fff0f8', card:'#fde8f3', border:'#f4b0d4', text:'#2a0818', muted:'#8a3a60' },
-  '🌊': { accent:'#0284c7', accent2:'#38bdf8', bg:'#f0f9ff', card:'#e0f2fe', border:'#7dd3fc', text:'#0c2a3d', muted:'#0369a1' },
-  '🌴': { accent:'#3aac3a', accent2:'#7acc44', bg:'#f2fbee', card:'#e0f5d8', border:'#96d680', text:'#0a2208', muted:'#3a8030' },
-  '🗼': { accent:'#7c3aed', accent2:'#a78bfa', bg:'#faf5ff', card:'#ede9fe', border:'#c4b5fd', text:'#1e0a3c', muted:'#6d28d9' },
-  '🌅': { accent:'#ea580c', accent2:'#fb923c', bg:'#fff7ed', card:'#ffedd5', border:'#fdba74', text:'#2a0e00', muted:'#c2410c' },
-  '🌙': { accent:'#444444', accent2:'#666666', bg:'#0a0a0a', card:'#1a1a1a', border:'#2e2e2e', text:'#f0f0f0', muted:'#888888' },
-  '💅': { accent:'#ff1493', accent2:'#ff69b4', bg:'#fff0f8', card:'#ffe4f3', border:'#ffaadd', text:'#3a0020', muted:'#cc1177' },
+  '🌸': { accent:'#d4186a', accent2:'#f472b6', bg:'#fff5f8', card:'#fde8f2', border:'#f7c0d8', text:'#3a0820', muted:'#c06080' },
+  '☀️': { accent:'#0099cc', accent2:'#00bbee', bg:'#f0faff', card:'#ddf3ff', border:'#80d8f5', text:'#003344', muted:'#0077aa' },
+  '🍂': { accent:'#c85a00', accent2:'#e8882a', bg:'#fff8f0', card:'#ffeedd', border:'#f4b880', text:'#2a0e00', muted:'#a04820' },
+  '❄️': { accent:'#3366cc', accent2:'#6699ee', bg:'#f5f8ff', card:'#e8eeff', border:'#aabbee', text:'#0a1533', muted:'#4466aa' },
 };
 
 function applyTheme(emoji) {
@@ -761,8 +755,7 @@ function applyTheme(emoji) {
   root.setProperty('--text', t.text);
   root.setProperty('--muted', t.muted);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.accent);
-  // 테마별 body 클래스
-  document.body.className = emoji === '💅' ? 'theme-gyaru' : emoji === '🌙' ? 'theme-dark' : '';
+  document.body.className = '';
 }
 
 function selectEmoji(e, btn) {
