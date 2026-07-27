@@ -205,10 +205,13 @@
       font-family:'Jua',sans-serif; font-size:16px; background:#fff; outline:none;
     }
     .form-input:focus { border-color:var(--accent); }
-    .form-select {
-      padding:8px 10px; border:1.5px solid var(--border); border-radius:8px;
-      font-family:'Jua',sans-serif; font-size:16px; background:#fff; outline:none;
+    .place-cat-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+    .place-cat-btn {
+      padding:5px 10px; border-radius:20px; border:1.5px solid var(--border);
+      background:#fff; font-family:'Jua',sans-serif; font-size:0.78rem; cursor:pointer;
+      white-space:nowrap;
     }
+    .place-cat-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
     .form-submit-btn {
       width:100%; padding:9px; background:var(--accent); color:#fff; border:none;
       border-radius:10px; font-family:'Jua',sans-serif; font-size:0.9rem; cursor:pointer;
@@ -444,16 +447,16 @@
     <div class="section-heading">장소 · 맛집</div>
     <button class="add-trigger-btn" id="addPlaceTrigger" onclick="toggleAddPlaceForm()" style="display:none;">+ 장소 추가</button>
     <div class="add-place-form" id="addPlaceForm">
+      <div class="place-cat-row" id="placeCatRow">
+        <button class="place-cat-btn active" onclick="selectPlaceCat('🍜',this)">🍜 맛집</button>
+        <button class="place-cat-btn" onclick="selectPlaceCat('☕',this)">☕ 카페</button>
+        <button class="place-cat-btn" onclick="selectPlaceCat('📍',this)">📍 관광</button>
+        <button class="place-cat-btn" onclick="selectPlaceCat('🛍',this)">🛍 쇼핑</button>
+        <button class="place-cat-btn" onclick="selectPlaceCat('🏨',this)">🏨 숙소</button>
+        <button class="place-cat-btn" onclick="selectPlaceCat('🎭',this)">🎭 문화</button>
+      </div>
       <div class="form-row">
         <input class="form-input" id="placeNameInput" placeholder="장소 또는 맛집 이름" />
-        <select class="form-select" id="placeCatInput">
-          <option value="🍜">🍜 맛집</option>
-          <option value="📍">📍 관광</option>
-          <option value="🛍">🛍 쇼핑</option>
-          <option value="🏨">🏨 숙소</option>
-          <option value="☕">☕ 카페</option>
-          <option value="🎭">🎭 문화</option>
-        </select>
       </div>
       <div class="form-row">
         <input class="form-input" id="placeMemoInput" placeholder="메모 (선택)" />
@@ -867,10 +870,17 @@ function renderPlaces() {
 function toggleAddPlaceForm() {
   document.getElementById('addPlaceForm').classList.toggle('show');
 }
+let selPlaceCat = '🍜';
+function selectPlaceCat(cat, btn) {
+  selPlaceCat = cat;
+  document.querySelectorAll('.place-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
 function addPlace() {
   const name = document.getElementById('placeNameInput').value.trim();
   if (!name) return;
-  const cat = document.getElementById('placeCatInput').value;
+  const cat = selPlaceCat;
   const memo = document.getElementById('placeMemoInput').value.trim();
   const places = get(K.places) || [];
   places.push({name, cat, memo});
