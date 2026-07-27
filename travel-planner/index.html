@@ -143,9 +143,22 @@
     .day-card-head {
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       padding:0.75rem 1rem; color:#fff; display:flex; align-items:center; justify-content:space-between;
+      position:relative; overflow:hidden;
     }
-    .day-card-head-title { font-size:0.95rem; }
-    .day-card-head-date { font-size:0.75rem; opacity:0.85; }
+    .day-card-head::after {
+      content:'';
+      position:absolute; top:0; left:-75%;
+      width:50%; height:100%;
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+      animation:shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0%   { left:-75%; }
+      50%  { left:125%; }
+      100% { left:125%; }
+    }
+    .day-card-head-title { font-size:0.95rem; position:relative; z-index:1; }
+    .day-card-head-date { font-size:0.75rem; opacity:0.85; position:relative; z-index:1; }
     .day-card-body { padding:0.6rem 0; }
     .schedule-item {
       display:flex; align-items:center; gap:8px;
@@ -358,6 +371,18 @@
   </div>
 
   <div class="setup-card">
+    <div class="setup-label">🎨 앱 테마 색상</div>
+    <div class="emoji-btns" id="emojiBtns">
+      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)" title="핑크">🌸</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌊',this)" title="하늘">🌊</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌴',this)" title="초록">🌴</button>
+      <button class="emoji-btn" onclick="selectEmoji('🗼',this)" title="보라">🗼</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌅',this)" title="오렌지">🌅</button>
+      <button class="emoji-btn" onclick="selectEmoji('🏔️',this)" title="그레이">🏔️</button>
+    </div>
+  </div>
+
+  <div class="setup-card">
     <div class="setup-label">📍 여행지 이름</div>
     <input class="setup-input" id="setupDest" placeholder="예: 도쿄, 오사카, 파리..." />
   </div>
@@ -401,18 +426,6 @@
       <button class="currency-btn" onclick="selectCurrency('CNY','¥','185',this)">🇨🇳 위안 (¥)</button>
       <button class="currency-btn" onclick="selectCurrency('THB','฿','38',this)">🇹🇭 바트 (฿)</button>
       <button class="currency-btn" onclick="selectCurrency('VND','₫','0.055',this)">🇻🇳 동 (₫)</button>
-    </div>
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-label">🎨 앱 테마 색상</div>
-    <div class="emoji-btns" id="emojiBtns">
-      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)" title="핑크">🌸</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌊',this)" title="하늘">🌊</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌴',this)" title="초록">🌴</button>
-      <button class="emoji-btn" onclick="selectEmoji('🗼',this)" title="보라">🗼</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌅',this)" title="오렌지">🌅</button>
-      <button class="emoji-btn" onclick="selectEmoji('🏔️',this)" title="그레이">🏔️</button>
     </div>
   </div>
 
