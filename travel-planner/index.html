@@ -145,19 +145,20 @@
       padding:0.75rem 1rem; color:#fff; display:flex; align-items:center; justify-content:space-between;
     }
     .day-card-head-title {
-      font-size:0.95rem; position:relative; overflow:hidden; display:inline-block;
+      font-size:0.95rem; display:inline-block;
+      animation: day-bounce 2.5s ease-in-out infinite;
     }
-    .day-card-head-title::after {
-      content:'';
-      position:absolute; top:0; left:-75%;
-      width:50%; height:100%;
-      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-      animation:shimmer 3s infinite;
-    }
-    @keyframes shimmer {
-      0%   { left:-75%; }
-      50%  { left:125%; }
-      100% { left:125%; }
+    .day-card:nth-child(1) .day-card-head-title { animation-delay: 0s; }
+    .day-card:nth-child(2) .day-card-head-title { animation-delay: 0.4s; }
+    .day-card:nth-child(3) .day-card-head-title { animation-delay: 0.8s; }
+    .day-card:nth-child(4) .day-card-head-title { animation-delay: 1.2s; }
+    .day-card:nth-child(5) .day-card-head-title { animation-delay: 1.6s; }
+    .day-card:nth-child(6) .day-card-head-title { animation-delay: 2.0s; }
+    .day-card:nth-child(7) .day-card-head-title { animation-delay: 2.4s; }
+    @keyframes day-bounce {
+      0%, 65%, 100% { transform: translateY(0); }
+      75%            { transform: translateY(-6px); }
+      85%            { transform: translateY(-2px); }
     }
     .day-card-head-date { font-size:0.75rem; opacity:0.85; }
     .day-card-body { padding:0.6rem 0; }
