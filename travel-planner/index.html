@@ -143,13 +143,15 @@
     .day-card-head {
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       padding:0.75rem 1rem; color:#fff; display:flex; align-items:center; justify-content:space-between;
-      position:relative; overflow:hidden;
     }
-    .day-card-head::after {
+    .day-card-head-title {
+      font-size:0.95rem; position:relative; overflow:hidden; display:inline-block;
+    }
+    .day-card-head-title::after {
       content:'';
       position:absolute; top:0; left:-75%;
       width:50%; height:100%;
-      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
       animation:shimmer 3s infinite;
     }
     @keyframes shimmer {
@@ -157,8 +159,7 @@
       50%  { left:125%; }
       100% { left:125%; }
     }
-    .day-card-head-title { font-size:0.95rem; position:relative; z-index:1; }
-    .day-card-head-date { font-size:0.75rem; opacity:0.85; position:relative; z-index:1; }
+    .day-card-head-date { font-size:0.75rem; opacity:0.85; }
     .day-card-body { padding:0.6rem 0; }
     .schedule-item {
       display:flex; align-items:center; gap:8px;
