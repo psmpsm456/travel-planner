@@ -348,25 +348,14 @@
     <div class="setup-row">
       <div>
         <div class="setup-label">출발일</div>
-        <input class="setup-input" id="setupStart" placeholder="예: 8/12" />
+        <input class="setup-input" type="date" id="setupStart" onchange="calcDays()" />
       </div>
       <div>
         <div class="setup-label">귀국일</div>
-        <input class="setup-input" id="setupEnd" placeholder="예: 8/15" />
+        <input class="setup-input" type="date" id="setupEnd" onchange="calcDays()" />
       </div>
     </div>
-  </div>
-
-  <div class="setup-card">
-    <div class="setup-label">📆 여행 일수</div>
-    <div class="day-btns" id="dayBtns">
-      <button class="day-btn" onclick="selectDays(2,this)">2일</button>
-      <button class="day-btn" onclick="selectDays(3,this)">3일</button>
-      <button class="day-btn active" onclick="selectDays(4,this)">4일</button>
-      <button class="day-btn" onclick="selectDays(5,this)">5일</button>
-      <button class="day-btn" onclick="selectDays(6,this)">6일</button>
-      <button class="day-btn" onclick="selectDays(7,this)">7일</button>
-    </div>
+    <div id="daysResult" style="text-align:center;margin-top:10px;font-size:1.1rem;font-weight:700;color:var(--accent);min-height:1.5em;"></div>
   </div>
 
   <div class="setup-card">
@@ -394,18 +383,14 @@
   </div>
 
   <div class="setup-card">
-    <div class="setup-label">🎨 테마 이모지</div>
+    <div class="setup-label">🎨 앱 테마 색상</div>
     <div class="emoji-btns" id="emojiBtns">
-      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)">🌸</button>
-      <button class="emoji-btn" onclick="selectEmoji('✈️',this)">✈️</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌴',this)">🌴</button>
-      <button class="emoji-btn" onclick="selectEmoji('🗼',this)">🗼</button>
-      <button class="emoji-btn" onclick="selectEmoji('🏔️',this)">🏔️</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌊',this)">🌊</button>
-      <button class="emoji-btn" onclick="selectEmoji('🍜',this)">🍜</button>
-      <button class="emoji-btn" onclick="selectEmoji('🎡',this)">🎡</button>
-      <button class="emoji-btn" onclick="selectEmoji('🏛️',this)">🏛️</button>
-      <button class="emoji-btn" onclick="selectEmoji('🌺',this)">🌺</button>
+      <button class="emoji-btn active" onclick="selectEmoji('🌸',this)" title="핑크">🌸</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌊',this)" title="하늘">🌊</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌴',this)" title="초록">🌴</button>
+      <button class="emoji-btn" onclick="selectEmoji('🗼',this)" title="보라">🗼</button>
+      <button class="emoji-btn" onclick="selectEmoji('🌅',this)" title="오렌지">🌅</button>
+      <button class="emoji-btn" onclick="selectEmoji('🏔️',this)" title="그레이">🏔️</button>
     </div>
   </div>
 
@@ -609,13 +594,57 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function calcDays() {
+  const s = document.getElementById('setupStart').value;
+  const e = document.getElementById('setupEnd').value;
+  const el = document.getElementById('daysResult');
+  if (s && e) {
+    const diff = Math.round((new Date(e) - new Date(s)) / 86400000);
+    if (diff > 0) {
+      selDays = diff + 1;
+      el.textContent = diff + '박 ' + selDays + '일';
+    } else if (diff === 0) {
+      selDays = 1;
+      el.textContent = '당일치기';
+    } else {
+      selDays = 1;
+      el.textContent = '⚠️ 귀국일이 출발일보다 빠릅니다';
+    }
+  } else {
+    el.textContent = '';
+  }
+}
+
 function selectDays(n, btn) {
   selDays = n;
   document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
+const THEMES = {
+  '🌸': { accent:'#d4186a', accent2:'#f472b6', bg:'#fff0f8', card:'#fde8f3', border:'#f4b0d4', text:'#2a0818', muted:'#8a3a60' },
+  '🌊': { accent:'#0284c7', accent2:'#38bdf8', bg:'#f0f9ff', card:'#e0f2fe', border:'#7dd3fc', text:'#0c2a3d', muted:'#0369a1' },
+  '🌴': { accent:'#16a34a', accent2:'#4ade80', bg:'#f0fdf4', card:'#dcfce7', border:'#86efac', text:'#052e16', muted:'#15803d' },
+  '🗼': { accent:'#7c3aed', accent2:'#a78bfa', bg:'#faf5ff', card:'#ede9fe', border:'#c4b5fd', text:'#1e0a3c', muted:'#6d28d9' },
+  '🌅': { accent:'#ea580c', accent2:'#fb923c', bg:'#fff7ed', card:'#ffedd5', border:'#fdba74', text:'#2a0e00', muted:'#c2410c' },
+  '🏔️': { accent:'#475569', accent2:'#94a3b8', bg:'#f8fafc', card:'#f1f5f9', border:'#cbd5e1', text:'#0f172a', muted:'#64748b' },
+};
+
+function applyTheme(emoji) {
+  const t = THEMES[emoji] || THEMES['🌸'];
+  const root = document.documentElement.style;
+  root.setProperty('--accent', t.accent);
+  root.setProperty('--accent2', t.accent2);
+  root.setProperty('--bg', t.bg);
+  root.setProperty('--card', t.card);
+  root.setProperty('--border', t.border);
+  root.setProperty('--text', t.text);
+  root.setProperty('--muted', t.muted);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.accent);
+}
+
 function selectEmoji(e, btn) {
   selEmoji = e;
+  applyTheme(e);
   document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
@@ -674,10 +703,13 @@ function initApp() {
 
 function updateHeader() {
   const d = tripData;
+  applyTheme(d.emoji || '🌸');
   document.getElementById('headerSub').textContent = (d.emoji||'✈️') + ' TRIP PLANNER';
   document.getElementById('headerTitle').textContent = d.dest + ' 여행';
-  document.getElementById('headerDates').textContent =
-    [d.start, d.end].filter(Boolean).join(' – ') + (d.days ? ' · ' + d.days + '일' : '');
+  let dateStr = [d.start, d.end].filter(Boolean).join(' – ');
+  if (d.days > 1) dateStr += ' · ' + (d.days-1) + '박 ' + d.days + '일';
+  else if (d.days === 1) dateStr += ' · 당일치기';
+  document.getElementById('headerDates').textContent = dateStr;
   document.title = '✈️ ' + d.dest + ' 여행';
 }
 
