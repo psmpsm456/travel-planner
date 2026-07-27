@@ -48,6 +48,18 @@
     .setup-input:focus { border-color:var(--accent); }
     .setup-row { display:flex; gap:10px; }
     .setup-row > div { flex:1; }
+    .date-row { display:flex; align-items:center; gap:8px; }
+    .date-box {
+      flex:1; background:var(--bg); border:1.5px solid var(--border);
+      border-radius:14px; padding:12px 10px; text-align:center; cursor:pointer;
+      transition:border-color 0.2s;
+    }
+    .date-box:active { border-color:var(--accent); }
+    .date-box-label { font-size:0.72rem; color:var(--muted); margin-bottom:4px; }
+    .date-box-value { font-size:1rem; font-weight:700; color:var(--text); }
+    .date-box-value.placeholder { color:var(--border); font-weight:400; }
+    .date-arrow { font-size:1.4rem; flex-shrink:0; }
+    .date-hidden { position:absolute; opacity:0; pointer-events:none; width:0; height:0; }
     .day-btns { display:flex; gap:8px; flex-wrap:wrap; }
     .day-btn {
       padding:7px 16px; border-radius:20px; border:1.5px solid var(--border);
@@ -345,17 +357,20 @@
 
   <div class="setup-card">
     <div class="setup-label">📅 여행 기간</div>
-    <div class="setup-row">
-      <div>
-        <div class="setup-label">출발일</div>
-        <input class="setup-input" type="date" id="setupStart" onchange="calcDays()" />
+    <div class="date-row">
+      <div class="date-box" onclick="document.getElementById('setupStart').showPicker?.()">
+        <div class="date-box-label">출발일</div>
+        <div class="date-box-value" id="startDisplay">날짜 선택</div>
+        <input type="date" id="setupStart" class="date-hidden" onchange="calcDays()" />
       </div>
-      <div>
-        <div class="setup-label">귀국일</div>
-        <input class="setup-input" type="date" id="setupEnd" onchange="calcDays()" />
+      <div class="date-arrow">✈️</div>
+      <div class="date-box" onclick="document.getElementById('setupEnd').showPicker?.()">
+        <div class="date-box-label">귀국일</div>
+        <div class="date-box-value" id="endDisplay">날짜 선택</div>
+        <input type="date" id="setupEnd" class="date-hidden" onchange="calcDays()" />
       </div>
     </div>
-    <div id="daysResult" style="text-align:center;margin-top:10px;font-size:1.1rem;font-weight:700;color:var(--accent);min-height:1.5em;"></div>
+    <div id="daysResult" style="text-align:center;margin-top:12px;font-size:1.15rem;font-weight:700;color:var(--accent);min-height:1.6em;"></div>
   </div>
 
   <div class="setup-card">
@@ -594,10 +609,27 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function fmtDate(val) {
+  if (!val) return null;
+  const [y, m, d] = val.split('-');
+  const days = ['일','월','화','수','목','금','토'];
+  const dow = days[new Date(val).getDay()];
+  return m + '/' + d + ' (' + dow + ')';
+}
+
 function calcDays() {
   const s = document.getElementById('setupStart').value;
   const e = document.getElementById('setupEnd').value;
   const el = document.getElementById('daysResult');
+
+  const sd = document.getElementById('startDisplay');
+  const ed = document.getElementById('endDisplay');
+
+  if (s) { sd.textContent = fmtDate(s); sd.classList.remove('placeholder'); }
+  else { sd.textContent = '날짜 선택'; sd.classList.add('placeholder'); }
+  if (e) { ed.textContent = fmtDate(e); ed.classList.remove('placeholder'); }
+  else { ed.textContent = '날짜 선택'; ed.classList.add('placeholder'); }
+
   if (s && e) {
     const diff = Math.round((new Date(e) - new Date(s)) / 86400000);
     if (diff > 0) {
