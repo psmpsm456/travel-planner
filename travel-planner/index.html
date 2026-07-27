@@ -52,14 +52,17 @@
     .date-box {
       flex:1; background:var(--bg); border:1.5px solid var(--border);
       border-radius:14px; padding:12px 10px; text-align:center; cursor:pointer;
-      transition:border-color 0.2s;
+      transition:border-color 0.2s; position:relative; overflow:hidden;
     }
     .date-box:active { border-color:var(--accent); }
     .date-box-label { font-size:0.72rem; color:var(--muted); margin-bottom:4px; }
     .date-box-value { font-size:1rem; font-weight:700; color:var(--text); }
     .date-box-value.placeholder { color:var(--border); font-weight:400; }
     .date-arrow { font-size:1.4rem; flex-shrink:0; }
-    .date-hidden { position:absolute; opacity:0; pointer-events:none; width:0; height:0; }
+    .date-hidden {
+      position:absolute; inset:0; opacity:0; cursor:pointer;
+      width:100%; height:100%; z-index:2;
+    }
     .day-btns { display:flex; gap:8px; flex-wrap:wrap; }
     .day-btn {
       padding:7px 16px; border-radius:20px; border:1.5px solid var(--border);
@@ -358,15 +361,15 @@
   <div class="setup-card">
     <div class="setup-label">📅 여행 기간</div>
     <div class="date-row">
-      <div class="date-box" onclick="document.getElementById('setupStart').showPicker?.()">
+      <div class="date-box">
         <div class="date-box-label">출발일</div>
-        <div class="date-box-value" id="startDisplay">날짜 선택</div>
+        <div class="date-box-value placeholder" id="startDisplay">날짜 선택</div>
         <input type="date" id="setupStart" class="date-hidden" onchange="calcDays()" />
       </div>
       <div class="date-arrow">✈️</div>
-      <div class="date-box" onclick="document.getElementById('setupEnd').showPicker?.()">
+      <div class="date-box">
         <div class="date-box-label">귀국일</div>
-        <div class="date-box-value" id="endDisplay">날짜 선택</div>
+        <div class="date-box-value placeholder" id="endDisplay">날짜 선택</div>
         <input type="date" id="setupEnd" class="date-hidden" onchange="calcDays()" />
       </div>
     </div>
