@@ -741,7 +741,12 @@ function updateHeader() {
   applyTheme(d.emoji || '🌸');
   document.getElementById('headerSub').textContent = (d.emoji||'✈️') + ' TRIP PLANNER';
   document.getElementById('headerTitle').textContent = d.dest + ' 여행';
-  let dateStr = [d.start, d.end].filter(Boolean).join(' – ');
+  function fmtHeaderDate(iso) {
+    if (!iso) return '';
+    const dt = new Date(iso);
+    return (dt.getMonth()+1) + '/' + dt.getDate();
+  }
+  let dateStr = [fmtHeaderDate(d.start), fmtHeaderDate(d.end)].filter(Boolean).join(' – ');
   if (d.days > 1) dateStr += ' · ' + (d.days-1) + '박 ' + d.days + '일';
   else if (d.days === 1) dateStr += ' · 당일치기';
   document.getElementById('headerDates').textContent = dateStr;
@@ -811,9 +816,12 @@ function renderSchedule() {
 function getDayDate(idx) {
   if (!tripData?.start) return '';
   try {
-    const [m,d] = tripData.start.split('/').map(Number);
-    const base = new Date(2026, m-1, d+idx);
-    return `${base.getMonth()+1}/${base.getDate()} (${['일','월','화','수','목','금','토'][base.getDay()]})`;
+    const base = new Date(tripData.start);
+    base.setDate(base.getDate() + idx);
+    const m = base.getMonth() + 1;
+    const d = base.getDate();
+    const dow = ['일','월','화','수','목','금','토'][base.getDay()];
+    return `${m}/${d} (${dow})`;
   } catch { return ''; }
 }
 
