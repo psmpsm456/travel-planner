@@ -144,6 +144,20 @@
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       padding:0.75rem 1rem; color:#fff; display:flex; align-items:center; justify-content:space-between;
     }
+    /* 갸루 호피 패턴 */
+    body.theme-gyaru .day-card-head,
+    body.theme-gyaru .setup-hero {
+      background:
+        radial-gradient(ellipse 9px 7px at 10% 30%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 7px 9px at 38% 12%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 10px 6px at 65% 38%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 6px 10px at 88% 15%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 8px 7px at 22% 72%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 9px 6px at 55% 80%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 7px 8px at 80% 65%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        radial-gradient(ellipse 6px 7px at 48% 55%, rgba(0,0,0,0.35) 65%, transparent 65%),
+        linear-gradient(135deg, #ff1493, #ff69b4) !important;
+    }
     .day-card-head-title {
       font-size:0.95rem; display:inline-block;
       animation: day-bounce 2.5s ease-in-out infinite;
@@ -679,12 +693,12 @@ function selectDays(n, btn) {
 const THEMES = {
   '🌸': { accent:'#d4186a', accent2:'#f472b6', bg:'#fff0f8', card:'#fde8f3', border:'#f4b0d4', text:'#2a0818', muted:'#8a3a60' },
   '🌊': { accent:'#0284c7', accent2:'#38bdf8', bg:'#f0f9ff', card:'#e0f2fe', border:'#7dd3fc', text:'#0c2a3d', muted:'#0369a1' },
-  '🌴': { accent:'#16a34a', accent2:'#4ade80', bg:'#f0fdf4', card:'#dcfce7', border:'#86efac', text:'#052e16', muted:'#15803d' },
+  '🌴': { accent:'#2d6a2d', accent2:'#5a9e3a', bg:'#eef5ea', card:'#dcecd5', border:'#8aba7a', text:'#0d2210', muted:'#3d6e3d' },
   '🗼': { accent:'#7c3aed', accent2:'#a78bfa', bg:'#faf5ff', card:'#ede9fe', border:'#c4b5fd', text:'#1e0a3c', muted:'#6d28d9' },
   '🌅': { accent:'#ea580c', accent2:'#fb923c', bg:'#fff7ed', card:'#ffedd5', border:'#fdba74', text:'#2a0e00', muted:'#c2410c' },
   '🏔️': { accent:'#475569', accent2:'#94a3b8', bg:'#f8fafc', card:'#f1f5f9', border:'#cbd5e1', text:'#0f172a', muted:'#64748b' },
-  '🌙': { accent:'#a78bfa', accent2:'#7c3aed', bg:'#0f0f13', card:'#1e1e2a', border:'#3a3a50', text:'#e8e8f4', muted:'#9090b0' },
-  '💅': { accent:'#ff0080', accent2:'#ffdd00', bg:'#fff0fb', card:'#ffe0f5', border:'#ff80cc', text:'#3a0025', muted:'#cc0066' },
+  '🌙': { accent:'#1a1a1a', accent2:'#555555', bg:'#ffffff', card:'#f4f4f4', border:'#cccccc', text:'#111111', muted:'#777777' },
+  '💅': { accent:'#ff1493', accent2:'#ff69b4', bg:'#fff0f8', card:'#ffe4f3', border:'#ffaadd', text:'#3a0020', muted:'#cc1177' },
 };
 
 function applyTheme(emoji) {
@@ -698,6 +712,8 @@ function applyTheme(emoji) {
   root.setProperty('--text', t.text);
   root.setProperty('--muted', t.muted);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.accent);
+  // 테마별 body 클래스
+  document.body.className = emoji === '💅' ? 'theme-gyaru' : '';
 }
 
 function selectEmoji(e, btn) {
