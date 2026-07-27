@@ -144,19 +144,17 @@
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       padding:0.75rem 1rem; color:#fff; display:flex; align-items:center; justify-content:space-between;
     }
-    /* 갸루 호피 패턴 */
+    /* 갸루 호피 패턴 - 반복 타일 */
     body.theme-gyaru .day-card-head,
     body.theme-gyaru .setup-hero {
-      background:
-        radial-gradient(ellipse 9px 7px at 10% 30%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 7px 9px at 38% 12%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 10px 6px at 65% 38%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 6px 10px at 88% 15%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 8px 7px at 22% 72%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 9px 6px at 55% 80%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 7px 8px at 80% 65%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        radial-gradient(ellipse 6px 7px at 48% 55%, rgba(0,0,0,0.35) 65%, transparent 65%),
-        linear-gradient(135deg, #ff1493, #ff69b4) !important;
+      background-color: #ff1493 !important;
+      background-image:
+        radial-gradient(ellipse 5px 3px at 2px 3px,   transparent 45%, rgba(90,0,45,0.7) 45%, rgba(90,0,45,0.7) 68%, transparent 68%),
+        radial-gradient(ellipse 3px 5px at 10px 9px,  transparent 45%, rgba(90,0,45,0.7) 45%, rgba(90,0,45,0.7) 68%, transparent 68%),
+        radial-gradient(ellipse 4px 3px at 6px 15px,  transparent 45%, rgba(90,0,45,0.7) 45%, rgba(90,0,45,0.7) 68%, transparent 68%),
+        radial-gradient(ellipse 3px 4px at 15px 2px,  transparent 45%, rgba(90,0,45,0.7) 45%, rgba(90,0,45,0.7) 68%, transparent 68%) !important;
+      background-size: 18px 18px !important;
+      background-repeat: repeat !important;
     }
     .day-card-head-title {
       font-size:0.95rem; display:inline-block;
@@ -176,6 +174,43 @@
     }
     .day-card-head-date { font-size:0.75rem; opacity:0.85; }
     .day-card-body { padding:0.6rem 0; }
+
+    /* ── 다크 모드 오버라이드 ── */
+    body.theme-dark { background:var(--bg); color:var(--text); }
+    body.theme-dark .setup-card,
+    body.theme-dark .day-card,
+    body.theme-dark .place-card,
+    body.theme-dark .more-card,
+    body.theme-dark .add-place-form,
+    body.theme-dark #checkList,
+    body.theme-dark .all-done-inner,
+    body.theme-dark .trans-modal-inner,
+    body.theme-dark .exp-modal-inner { background:var(--card) !important; color:var(--text) !important; }
+    body.theme-dark nav { background:var(--card) !important; border-color:var(--border) !important; }
+    body.theme-dark nav a { color:var(--muted) !important; }
+    body.theme-dark nav a.active { color:var(--accent) !important; }
+    body.theme-dark .form-input,
+    body.theme-dark .setup-input,
+    body.theme-dark .exp-select,
+    body.theme-dark .exp-inp-full,
+    body.theme-dark .step-input,
+    body.theme-dark .trans-textarea,
+    body.theme-dark .edit-item-input,
+    body.theme-dark .add-item-input { background:var(--bg) !important; color:var(--text) !important; border-color:var(--border) !important; }
+    body.theme-dark .date-box { background:var(--card) !important; border-color:var(--border) !important; }
+    body.theme-dark .emoji-btn,
+    body.theme-dark .lang-btn,
+    body.theme-dark .currency-btn,
+    body.theme-dark .place-cat-btn { background:var(--bg) !important; color:var(--text) !important; border-color:var(--border) !important; }
+    body.theme-dark .emoji-btn.active,
+    body.theme-dark .lang-btn.active,
+    body.theme-dark .currency-btn.active,
+    body.theme-dark .place-cat-btn.active { background:var(--accent) !important; color:var(--bg) !important; }
+    body.theme-dark .section-label,
+    body.theme-dark .section-heading { color:var(--text) !important; }
+    body.theme-dark .schedule-item { border-color:var(--border) !important; }
+    body.theme-dark .exp-day-label,
+    body.theme-dark .exp-item { border-color:var(--border) !important; }
     .schedule-item {
       display:flex; align-items:center; gap:8px;
       padding:7px 1rem; border-bottom:0.5px solid #fde8f3; font-size:0.88rem;
@@ -693,11 +728,11 @@ function selectDays(n, btn) {
 const THEMES = {
   '🌸': { accent:'#d4186a', accent2:'#f472b6', bg:'#fff0f8', card:'#fde8f3', border:'#f4b0d4', text:'#2a0818', muted:'#8a3a60' },
   '🌊': { accent:'#0284c7', accent2:'#38bdf8', bg:'#f0f9ff', card:'#e0f2fe', border:'#7dd3fc', text:'#0c2a3d', muted:'#0369a1' },
-  '🌴': { accent:'#2d6a2d', accent2:'#5a9e3a', bg:'#eef5ea', card:'#dcecd5', border:'#8aba7a', text:'#0d2210', muted:'#3d6e3d' },
+  '🌴': { accent:'#3aac3a', accent2:'#7acc44', bg:'#f2fbee', card:'#e0f5d8', border:'#96d680', text:'#0a2208', muted:'#3a8030' },
   '🗼': { accent:'#7c3aed', accent2:'#a78bfa', bg:'#faf5ff', card:'#ede9fe', border:'#c4b5fd', text:'#1e0a3c', muted:'#6d28d9' },
   '🌅': { accent:'#ea580c', accent2:'#fb923c', bg:'#fff7ed', card:'#ffedd5', border:'#fdba74', text:'#2a0e00', muted:'#c2410c' },
   '🏔️': { accent:'#475569', accent2:'#94a3b8', bg:'#f8fafc', card:'#f1f5f9', border:'#cbd5e1', text:'#0f172a', muted:'#64748b' },
-  '🌙': { accent:'#1a1a1a', accent2:'#555555', bg:'#ffffff', card:'#f4f4f4', border:'#cccccc', text:'#111111', muted:'#777777' },
+  '🌙': { accent:'#e0e0e0', accent2:'#aaaaaa', bg:'#111111', card:'#222222', border:'#444444', text:'#f0f0f0', muted:'#999999' },
   '💅': { accent:'#ff1493', accent2:'#ff69b4', bg:'#fff0f8', card:'#ffe4f3', border:'#ffaadd', text:'#3a0020', muted:'#cc1177' },
 };
 
@@ -713,7 +748,7 @@ function applyTheme(emoji) {
   root.setProperty('--muted', t.muted);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.accent);
   // 테마별 body 클래스
-  document.body.className = emoji === '💅' ? 'theme-gyaru' : '';
+  document.body.className = emoji === '💅' ? 'theme-gyaru' : emoji === '🌙' ? 'theme-dark' : '';
 }
 
 function selectEmoji(e, btn) {
